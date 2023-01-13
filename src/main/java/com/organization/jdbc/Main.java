@@ -1,15 +1,30 @@
 package com.organization.jdbc;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class Main {
     public static void main(String[] args) {
         try {
+            Properties properties = new Properties();
+            FileInputStream fileInputStream = new FileInputStream("./src/main/resources/db.properties");
+
+            properties.load(fileInputStream);
+
+            String url = properties.getProperty("db.url");
+            String username = properties.getProperty("db.username");
+            String password = properties.getProperty("db.password");
+
             Connection conn = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/classicmodels",
-                    "root",
-                    "root1");
+                    url,
+                    username,
+                    password
+            );
+
             Statement statement = conn.createStatement();
             ResultSet result = statement.executeQuery("select * from customers");
             List<Customer> customers = new ArrayList<>();
@@ -31,9 +46,14 @@ public class Main {
 //            }
 
             conn.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();;
         }
+
 
     }
 }
