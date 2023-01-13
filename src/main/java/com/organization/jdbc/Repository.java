@@ -13,7 +13,6 @@ public class Repository {
     private String username;
     private String password;
     private Connection connection;
-
     public Connection getConnection() throws SQLException {
         if (connection == null) {
             getProperties();
@@ -21,7 +20,6 @@ public class Repository {
         }
         return connection;
     }
-
     private void getProperties() {
         Properties properties = new Properties();
         try (FileInputStream fileInputStream = new FileInputStream("./src/main/resources/db.properties")) {
@@ -34,6 +32,5 @@ public class Repository {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 }
