@@ -12,7 +12,7 @@ public class Repository {
     private String url;
     private String username;
     private String password;
-    private Connection connection;
+    private static Connection connection;
     public Connection getConnection() throws SQLException {
         if (connection == null) {
             getProperties();
@@ -32,5 +32,9 @@ public class Repository {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void closeConnection() throws SQLException{
+        connection.close();
     }
 }
